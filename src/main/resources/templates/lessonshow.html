@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lesson</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div class="container">
+
+    <h2 th:text="${lesson.name}"></h2>
+    <h2 th:text="${lesson.goal}"></h2>
+    <p>Описание</p>
+    <p th:text="${lesson.description}"></p>
+    <p th:text="${lesson.text}"></p>
+
+</div>
+
+</body>
+</html>

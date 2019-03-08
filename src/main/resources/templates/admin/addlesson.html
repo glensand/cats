@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Lesson</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -9,26 +10,28 @@
 <body>
 
 <div class="container">
-<form class="form-horizontal">
-    <fieldset>
 
+<form autocomplete="off" action="#" th:action="@{/admin/lesson/new}"
+      th:object="${lesson}" method="post" class="form-horizontal"
+      role="form">
+    <fieldset>
         <!-- Form Name -->
-        <legend>Урок</legend>
+        <legend align="center">Урок</legend>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-3 control-label" for="name">Название</label>
+            <label class="col-md-3 control-label" for="name" >Название</label>
             <div class="col-md-6">
-                <input id="name" name="textinput" type="text" placeholder="" class="form-control input-md">
+                <input id="name" name="textinput" th:field="*{name}" type="text" placeholder="" class="form-control input-md">
 
             </div>
         </div>
 
         <!-- Text input-->
         <div class="form-group">
-            <label class="col-md-3 control-label" for="goal">Цель</label>
+            <label class="col-md-3 control-label" for="goal" >Цель</label>
             <div class="col-md-6">
-                <input id="goal" name="textinput" type="text" placeholder="" class="form-control input-md">
+                <input id="goal" name="textinput" th:field="*{goal}" type="text" placeholder="" class="form-control input-md">
 
             </div>
         </div>
@@ -37,7 +40,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for="description">Описание</label>
             <div class="col-md-6">
-                <textarea class="form-control" id="description" name="textarea"></textarea>
+                <textarea class="form-control" id="description" name="textarea" th:field="*{description}" ></textarea>
             </div>
         </div>
 
@@ -45,7 +48,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for="text">Текст</label>
             <div class="col-md-6">
-                <textarea class="form-control" id="text" name="textarea"></textarea>
+                <textarea class="form-control" th:field="*{text}" id="text" name="textarea"></textarea>
             </div>
         </div>
 
@@ -53,7 +56,7 @@
         <div class="form-group">
             <label class="col-md-3 control-label" for="author">Автор</label>
             <div class="col-md-6">
-                <input id="author" name="textinput" type="text" placeholder="" class="form-control input-md">
+                <input id="author" name="textinput" th:field="*{author}" type="text" placeholder="" class="form-control input-md">
 
             </div>
         </div>
@@ -67,6 +70,7 @@
         </div>
 
     </fieldset>
+    <h2><span class="text-success" th:utext="${successMessage}"></span></h2>
 </form>
 </div>
 </body>
