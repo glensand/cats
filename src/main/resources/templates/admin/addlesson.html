@@ -6,12 +6,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+
 </head>
 <body>
 
 <div class="container">
 
-<form autocomplete="off" action="#" th:action="@{/admin/lesson/new}"
+
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <form autocomplete="off" action="#" th:action="@{/admin/lesson/new}"
       th:object="${lesson}" method="post" class="form-horizontal"
       role="form">
     <fieldset>

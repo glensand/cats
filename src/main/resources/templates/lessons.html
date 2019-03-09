@@ -12,7 +12,7 @@
 
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>Lessons List</h2>
+    <h2>Уроки</h2>
         <table class="table table-striped">
             <tr>
                 <th>Id</th>
@@ -24,11 +24,11 @@
             </tr>
             <tr th:each="lesson : ${lessons}">
                 <td th:text="${lesson.id}"><a href="/lesson//${lesson.id}">Id</a></td>
-                <td th:text="${lesson.name}">Product Id</td>
-                <td th:text="${lesson.description}">descirption</td>
+                <td th:text="${lesson.name}">Название</td>
+                <td th:text="${lesson.description}">Описание</td>
                 <td th:text="${lesson.goal}">price</td>
-                <td><a th:href="${ '/lesson/' + lesson.id}">View</a></td>
-                <td><a th:href="${'admin/lesson/edit/' + lesson.id}">Edit</a></td>
+                <td><a th:href="${ '/lesson/' + lesson.id}">Просмотр</a></td>
+                <td><a th:href="${'admin/lesson/edit/' + lesson.id}">Изменить</a></td>
             </tr>
         </table>
 
