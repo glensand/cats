@@ -9,10 +9,13 @@
     <title>Lesson</title>
 
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+
 </head>
 <body>
 
 <div class="container" align="center">
+
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
     <h2 th:text="${lesson.name}"></h2>
     <h2 th:text="${lesson.goal}"></h2>
@@ -21,7 +24,7 @@
     <p th:text="${lesson.text}"></p>
     <a th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}" th:href="${'/curator/lesson/edit/' + lesson.id}">Редактировать</a>
 
-    <form autocomplete="off" action="#" th:action="@{/lesson/comment/add}"
+    <form autocomplete="off" action="#" th:action="${'/lesson/comment/new/' + lesson.id}"
           th:object="${comment}" method="post" class="form-horizontal"
           role="form">
         <!-- Textarea -->
@@ -38,6 +41,18 @@
                 <button id="save" name="singlebutton" class="btn btn-inverse">Сохранить</button>
             </div>
         </div>
+
+        <h2>Замечания</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>Пользователь</th>
+                <th>Текст</th>
+            </tr>
+            <tr th:each="c : ${comments}">
+                <td th:text="${c.userId}"><a href="/lesson//${lesson.id}">Id</a></td>
+                <td th:text="${c.text}">Текс</td>
+            </tr>
+        </table>
     </form>
 </div>
 

@@ -85,12 +85,16 @@ public class LessonController {
     }
 
 
-    @RequestMapping(value = "/lesson/comment/new", method = RequestMethod.POST)
-    public String addComment(@Valid Comment comment, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors())
+    @RequestMapping(value = "/lesson/comment/new/{id}", method = RequestMethod.POST)
+    public String addComment(@PathVariable Integer id, @Valid Comment comment, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            comment.setLessonId(id);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByEmail(auth.getName());
+            comment.setUserId(user.getId());
             commentService.saveComment(comment);
-
-        return "redirect:/lesson/" + comment.getLessonId();
+        }
+        return "redirect:/lesson/" + id;
     }
 
     @RequestMapping(value = "curator/lesson/edit/{id}", method = RequestMethod.GET)
