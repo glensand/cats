@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Добавить Пользователя</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+
 </head>
 <body>
 
+<div class="container"><!-- Text input-->
+
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+    <form autocomplete="off" action="#" th:action="@{/admin/user/new}"
+          th:object="${newUser}" method="post" class="form-horizontal"
+          role="form">
+
+    <fieldset>
+
+            <!-- Form Name -->
+            <legend align="center">Создать Нового Пользователя</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-3 control-label"  for="email">Почта</label>
+                <div class="col-md-6">
+                    <input id="email" name="email" th:field="*{email}" type="text" placeholder="" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="pass">Пароль</label>
+                <div class="col-md-6">
+                    <input id="pass" name="pass" th:field="*{password}"  type="text" placeholder="" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="role">Роль</label>
+                <div class="col-md-6">
+                    <select id="role" name="role" class="form-control">
+                        <option value="ADMIN">Администратор</option>
+                        <option value="CURATOR">Куратор</option>
+                        <option value="TEACHER">Преподаватель</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-3 control-label" for="save"></label>
+                <div class="col-md-6" align="center">
+                    <button id="save" name="save" class="btn btn-inverse">Сохранить</button>
+                </div>
+            </div>
+        <h2 align="center"><span class="text-success" th:utext="${successMessage}"></span></h2>
+
+        </fieldset>
+    </form>
+
+</div>
 </body>
 </html>

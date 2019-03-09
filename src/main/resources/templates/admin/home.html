@@ -27,6 +27,18 @@
             <div class="panel-body">
             </div>
             <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+            <div th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}">
+                <p>ADMIN || CURATOR</p>
+            </div>
+
+            <div th:if="${user.role.equals('ADMIN')}">
+                <p>ADMIN</p>
+            </div>
+
+            <div th:if="${user.role.equals('USER')}">
+                <p>USER</p>
+            </div>
+
         </div>
     </div>
 

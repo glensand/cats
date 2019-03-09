@@ -17,7 +17,6 @@
             <tr>
                 <th>Id</th>
                 <th>Название</th>
-                <th>Описание</th>
                 <th>Цель</th>
                 <th>Открыть</th>
                 <th>Редактировать</th>
@@ -25,10 +24,9 @@
             <tr th:each="lesson : ${lessons}">
                 <td th:text="${lesson.id}"><a href="/lesson//${lesson.id}">Id</a></td>
                 <td th:text="${lesson.name}">Название</td>
-                <td th:text="${lesson.description}">Описание</td>
                 <td th:text="${lesson.goal}">price</td>
                 <td><a th:href="${ '/lesson/' + lesson.id}">Просмотр</a></td>
-                <td><a th:href="${'admin/lesson/edit/' + lesson.id}">Изменить</a></td>
+                <td><a th:href="${'curator/lesson/edit/' + lesson.id}">Изменить</a></td>
             </tr>
         </table>
 

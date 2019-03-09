@@ -22,38 +22,48 @@ public class LessonController {
     @Autowired
     private LessonService lessonService;
 
-    @RequestMapping(value="/admin/lesson/new", method = RequestMethod.GET)
-    public ModelAndView addlesson(){
+    @Autowired
+    private UserService userService;
+
+    private ModelAndView getModelWithUser(){
+
         ModelAndView modelAndView = new ModelAndView();
-        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Lesson lesson = new Lesson();
-        modelAndView.addObject("lesson", lesson);
-        //modelAndView.addObject("adminMessage","Content Available Only for Users with Admin role");
-        modelAndView.setViewName("admin/addlesson");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        modelAndView.addObject("user", user);
+
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/lesson/new", method = RequestMethod.POST)
+    @RequestMapping(value="/curator/lesson/new", method = RequestMethod.GET)
+    public ModelAndView addLesson(){
+        ModelAndView modelAndView = getModelWithUser();
+        Lesson lesson = new Lesson();
+        modelAndView.addObject("lesson", lesson);
+        modelAndView.setViewName("curator/addlesson");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/curator/lesson/new", method = RequestMethod.POST)
     public ModelAndView createNewLesson(@Valid Lesson lesson, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = getModelWithUser();
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("admin/addlesson");
+            modelAndView.setViewName("curator/addlesson");
         } else {
 
             System.out.println(lesson.getName());
             lessonService.saveLesson(lesson);
             modelAndView.addObject("successMessage", "Lesson has been saved successfully");
-            //Lesson newLesson = new Lesson(lesson);
             System.out.println(lesson.getId());
             modelAndView.addObject("lesson", new Lesson());
-            modelAndView.setViewName("admin/addlesson");
+            modelAndView.setViewName("curator/addlesson");
         }
         return modelAndView;
     }
 
     @RequestMapping(value = "/lessons", method = RequestMethod.GET)
     public ModelAndView showLessons() {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lessons", lessonService.listAllLessons());
         modelAndView.setViewName("lessons");
         return modelAndView;
@@ -61,17 +71,17 @@ public class LessonController {
 
     @RequestMapping(value = "lesson/{id}", method = RequestMethod.GET)
     public ModelAndView showLesson(@PathVariable Integer id){
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
         modelAndView.setViewName("lessonshow");
         return modelAndView;
     }
 
-    @RequestMapping(value = "admin/lesson/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "curator/lesson/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable Integer id){
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
-        modelAndView.setViewName("admin/addlesson");
+        modelAndView.setViewName("curator/addlesson");
         return modelAndView;
     }
 }
