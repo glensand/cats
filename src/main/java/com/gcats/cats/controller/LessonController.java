@@ -1,7 +1,9 @@
 package com.gcats.cats.controller;
 
+import com.gcats.cats.model.Comment;
 import com.gcats.cats.model.Lesson;
 import com.gcats.cats.model.User;
+import com.gcats.cats.service.CommentService;
 import com.gcats.cats.service.LessonService;
 import com.gcats.cats.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class LessonController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
 
     private ModelAndView getModelWithUser(){
 
@@ -73,8 +78,19 @@ public class LessonController {
     public ModelAndView showLesson(@PathVariable Integer id){
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
+        modelAndView.addObject("comment", new Comment());
+        modelAndView.addObject("comments", commentService.listAllComments());
         modelAndView.setViewName("lessonshow");
         return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/lesson/comment/new", method = RequestMethod.POST)
+    public String addComment(@Valid Comment comment, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors())
+            commentService.saveComment(comment);
+
+        return "redirect:/lesson/" + comment.getLessonId();
     }
 
     @RequestMapping(value = "curator/lesson/edit/{id}", method = RequestMethod.GET)
