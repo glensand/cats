@@ -22,6 +22,9 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
+    //some copy and paste, cause spring autowire doesnt work with static classes,
+    // methods and stuff like that
+    //TODO: create class to be produce model and view with user
     private ModelAndView getModelWithUser(){
 
         ModelAndView modelAndView = new ModelAndView();
