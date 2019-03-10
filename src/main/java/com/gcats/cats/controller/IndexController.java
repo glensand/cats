@@ -2,7 +2,6 @@ package com.gcats.cats.controller;
 
 import com.gcats.cats.model.Lesson;
 import com.gcats.cats.model.User;
-import com.gcats.cats.service.LessonService;
 import com.gcats.cats.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,17 +23,8 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    //some copy and paste, cause spring autowire doesnt work with static classes,
-    // methods and stuff like that
-    //TODO: create class to be produce model and view with user
     private ModelAndView getModelWithUser(){
-
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
+        return userService.getModelWithUser();
     }
 
     @RequestMapping(value= {"/home", "/"}, method = RequestMethod.GET)

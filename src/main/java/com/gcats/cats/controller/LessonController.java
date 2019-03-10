@@ -31,13 +31,7 @@ public class LessonController {
     private CommentService commentService;
 
     private ModelAndView getModelWithUser(){
-
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("user", user);
-
-        return modelAndView;
+        return userService.getModelWithUser();
     }
 
     @RequestMapping(value="/curator/lesson/new", method = RequestMethod.GET)
