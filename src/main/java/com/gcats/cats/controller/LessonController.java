@@ -79,7 +79,7 @@ public class LessonController {
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
         modelAndView.addObject("comment", new Comment());
-        modelAndView.addObject("comments", commentService.listAllComments());
+        modelAndView.addObject("comments", commentService.listByLessonId(id));
         modelAndView.setViewName("lessonshow");
         return modelAndView;
     }
@@ -92,6 +92,7 @@ public class LessonController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
             comment.setUserId(user.getId());
+            comment.setUserName(user.getName());
             commentService.saveComment(comment);
         }
         return "redirect:/lesson/" + id;

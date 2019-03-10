@@ -49,8 +49,8 @@
                 <th>Текст</th>
             </tr>
             <tr th:each="c : ${comments}">
-                <td th:text="${c.userId}"><a href="/lesson//${lesson.id}">Id</a></td>
-                <td th:text="${c.text}">Текс</td>
+                <td th:text="${c.userName}"></td>
+                <td th:text="${c.text}"></td>
             </tr>
         </table>
     </form>

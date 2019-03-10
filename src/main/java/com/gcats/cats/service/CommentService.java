@@ -21,4 +21,6 @@ public class CommentService {
     }
 
     public Comment saveComment(Comment comment){return commentRepository.save(comment);}
+
+    public Iterable<Comment> listByLessonId(int lessonId){return commentRepository.findByLessonId(lessonId);}
 }

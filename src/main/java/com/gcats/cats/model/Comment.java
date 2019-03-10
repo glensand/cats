@@ -17,6 +17,9 @@ public class Comment {
     @Column(name = "user_id")
     private int userId;
 
+    @Column(name = "user_name")
+    private String userName;
+
     @Column(name = "text")
     private String text;
 
@@ -50,5 +53,13 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
