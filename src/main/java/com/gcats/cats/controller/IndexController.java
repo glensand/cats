@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+//comment just for slack github's commits redirection test
+
 @Controller
 public class IndexController {
 
