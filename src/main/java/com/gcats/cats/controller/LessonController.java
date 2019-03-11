@@ -6,6 +6,7 @@ import com.gcats.cats.model.User;
 import com.gcats.cats.service.CommentService;
 import com.gcats.cats.service.LessonService;
 import com.gcats.cats.service.UserService;
+import com.gcats.cats.utils.PdfGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +17,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LessonController {
+
+    @Autowired
+    PdfGenerator pdfGeneratorUtil;
 
     @Autowired
     private LessonService lessonService;
@@ -98,5 +110,37 @@ public class LessonController {
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
         modelAndView.setViewName("curator/addlesson");
         return modelAndView;
+    }
+
+    //TODO: add real lesson html to pdf processing, with data base info usage
+    //TODO: modify PdfGenerator, to be able to pass to it Lists{Iterable} as argument
+    @RequestMapping("/pdf/{fileName:.+}")
+    public void downloadPDFResource( HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     @PathVariable("fileName") String fileName) {
+
+        try{
+            Map<String,String> data = new HashMap<String,String>();
+            pdfGeneratorUtil.createPdf("lessonToPdf", fileName, data);
+        }
+        catch (java.lang.Exception e){
+            System.out.println("handled");
+        }
+
+        String dataDirectory = request.getServletContext().getRealPath("/pdf/");
+        System.out.println(dataDirectory);
+        final String fileNameDot = fileName + ".pdf";
+        Path file = Paths.get(dataDirectory, fileNameDot);
+        if (Files.exists(file)) {
+            response.setContentType("application/pdf");
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileNameDot);
+            try {
+                Files.copy(file, response.getOutputStream());
+                response.getOutputStream().flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        //return "redirect:/lesson/" + fileName;
     }
 }

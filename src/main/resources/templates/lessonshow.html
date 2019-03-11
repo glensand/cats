@@ -22,8 +22,10 @@
     <p>Описание</p>
     <p th:text="${lesson.description}"></p>
     <p th:text="${lesson.text}"></p>
-    <a th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}" th:href="${'/curator/lesson/edit/' + lesson.id}">Редактировать</a>
+    <a th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}"
+       th:href="${'/curator/lesson/edit/' + lesson.id}">Редактировать</a>
 
+    <a th:href="${'/pdf/' + lesson.id}" target="_blank">Скачать PDF</a>
     <form autocomplete="off" action="#" th:action="${'/lesson/comment/new/' + lesson.id}"
           th:object="${comment}" method="post" class="form-horizontal"
           role="form">
