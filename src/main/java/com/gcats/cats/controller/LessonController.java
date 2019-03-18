@@ -51,23 +51,23 @@ public class LessonController {
         ModelAndView modelAndView = getModelWithUser();
         Lesson lesson = new Lesson();
         modelAndView.addObject("lesson", lesson);
-        modelAndView.setViewName("curator/addlesson");
+        modelAndView.setViewName("lesson/new");
         return modelAndView;
     }
 
     @RequestMapping(value = "/curator/lesson/new", method = RequestMethod.POST)
     public ModelAndView createNewLesson(@Valid Lesson lesson, BindingResult bindingResult) {
         ModelAndView modelAndView = getModelWithUser();
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("curator/addlesson");
-        } else {
+        modelAndView.setViewName("lesson/new");
+        if (!bindingResult.hasErrors()) {
 
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            lesson.setAuthor(auth.getName());
             System.out.println(lesson.getName());
             lessonService.saveLesson(lesson);
             modelAndView.addObject("successMessage", "Lesson has been saved successfully");
             System.out.println(lesson.getId());
             modelAndView.addObject("lesson", new Lesson());
-            modelAndView.setViewName("curator/addlesson");
         }
         return modelAndView;
     }
@@ -76,7 +76,7 @@ public class LessonController {
     public ModelAndView showLessons() {
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lessons", lessonService.listAllLessons());
-        modelAndView.setViewName("lessons");
+        modelAndView.setViewName("lesson/lessons");
         return modelAndView;
     }
 
@@ -86,7 +86,7 @@ public class LessonController {
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
         modelAndView.addObject("comment", new Comment());
         modelAndView.addObject("comments", commentService.listByLessonId(id));
-        modelAndView.setViewName("lessonshow");
+        modelAndView.setViewName("lesson/show");
         return modelAndView;
     }
 
@@ -108,7 +108,7 @@ public class LessonController {
     public ModelAndView edit(@PathVariable Integer id){
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
-        modelAndView.setViewName("curator/addlesson");
+        modelAndView.setViewName("lesson/new");
         return modelAndView;
     }
 
@@ -121,6 +121,11 @@ public class LessonController {
 
         try{
             Map<String,String> data = new HashMap<String,String>();
+            Lesson lesson = lessonService.findLessonById(Integer.parseInt(fileName));
+            data.put("name", lesson.getName());
+            data.put("goal", lesson.getGoal());
+            data.put("text", lesson.getText());
+            data.put("author", lesson.getAuthor());
             pdfGeneratorUtil.createPdf("lessonToPdf", fileName, data);
         }
         catch (java.lang.Exception e){

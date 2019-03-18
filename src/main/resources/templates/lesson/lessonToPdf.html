@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
 </head>
 <body>
 
-<p>Lesson to pdf Test</p>
+<h2>Название Урока:</h2>
+<h3 th:text="${name}">Название</h3>
+<br/>
+<h2>Цель Урока:</h2>
+<h3 th:text="${goal}"></h3>
+<br/>
+<p th:text="${text}"></p>
+
+<br/>
+<h4>Автор:</h4>
+
+<p th:text="${author}"></p>
 
 </body>
 </html>

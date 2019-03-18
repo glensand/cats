@@ -17,9 +17,8 @@ public class CsvReader
     public Vector<User> read(File file) throws Exception
     {
         Vector<User> users = new Vector<User>();
-        //Build reader instance
         CSVReader reader = new CSVReader(new FileReader(file));
-        //Read all rows at once
+
         String[] nextLine;
         while ((nextLine = reader.readNext()) != null) {
             if (nextLine != null) {
@@ -30,8 +29,6 @@ public class CsvReader
                 user.setActive(1);
                 users.add(user);            }
         }
-
         return users;
     }
 }
-
