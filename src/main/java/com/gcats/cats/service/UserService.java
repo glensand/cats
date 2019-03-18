@@ -42,4 +42,8 @@ public class UserService {
 
         return modelAndView;
     }
+
+    public Iterable<User> listAllUsers() {
+        return userRepository.findAll();
+    }
 }

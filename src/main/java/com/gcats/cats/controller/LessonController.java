@@ -113,7 +113,7 @@ public class LessonController {
     }
 
     //TODO: add real lesson html to pdf processing, with data base info usage
-    //TODO: modify PdfGenerator, to be able to pass to it Lists{Iterable} as argument
+    //TODO: modify PdfGenerator, to be able to pass Lists{Iterable} as argument
     @RequestMapping("/pdf/{fileName:.+}")
     public void downloadPDFResource( HttpServletRequest request,
                                      HttpServletResponse response,

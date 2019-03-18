@@ -18,17 +18,29 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#" th:href="@{/}">Дом</a>
+
+                    <!--<a class="navbar-brand" href="#" th:href="@{/}">Дом</a>-->
                     <ul class="nav navbar-nav">
-                        <li><a href="#" th:href="@{/lessons}">Уроки</a></li>
-                        <li  th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}">
+
+                        <li th:if="${user.role.equals('TEACHER') or user.role.equals('CURATOR')}">
+                            <a href="#" th:href="@{/lessons}">Уроки</a>
+                        </li>
+
+                        <li  th:if="${user.role.equals('TEACHER') or user.role.equals('CURATOR')}">
                             <a href="#" th:href="@{/curator/lesson/new}">Создать урок</a>
                         </li>
+
                         <li th:if="${user.role.equals('ADMIN')}">
-                            <a href="#" th:href="@{/admin/user/new}">Создать пользователя</a>
+                            <a href="#" th:href="@{/admin/user/new}">Импорт пользователей</a>
                         </li>
+
+
+                        <li th:if="${user.role.equals('ADMIN')}">
+                            <a href="#" th:href="@{/admin/users}">Список пользователей</a>
+                        </li>
+
                         <li><a href="#" th:href="@{/logout}">Выйти</a></li>
-                        <li><a href="#" th:href="@{/}" th:text="${user.name}"></a></li>
+                        <!--<li><a href="#" th:href="@{/}" th:text="${user.name}"></a></li>-->
                     </ul>
 
                 </div>

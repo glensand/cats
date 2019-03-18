@@ -19,10 +19,8 @@
 
     <h2 th:text="${lesson.name}"></h2>
     <h2 th:text="${lesson.goal}"></h2>
-    <p>Описание</p>
-    <p th:text="${lesson.description}"></p>
     <p th:text="${lesson.text}"></p>
-    <a th:if="${user.role.equals('ADMIN') or user.role.equals('CURATOR')}"
+    <a th:if="${user.role.equals('TEACHER') or user.role.equals('CURATOR')}"
        th:href="${'/curator/lesson/edit/' + lesson.id}">Редактировать</a>
 
     <a th:href="${'/pdf/' + lesson.id}" target="_blank">Скачать PDF</a>

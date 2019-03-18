@@ -23,9 +23,9 @@ public class Lesson {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "description")
-    private String description;
+//
+//    @Column(name = "description")
+//    private String description;
 
     @Column(name = "goal")
     private String goal;
