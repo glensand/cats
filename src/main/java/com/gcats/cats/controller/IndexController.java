@@ -36,10 +36,15 @@ public class IndexController {
     }
 
     @RequestMapping(value= {"/home", "/"}, method = RequestMethod.GET)
-    public ModelAndView home(){
-        ModelAndView modelAndView = getModelWithUser();
-        modelAndView.setViewName("/home");
-        return modelAndView;
+    public String home(){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByLogin(auth.getName());
+
+        if(user.getRole().equals("ADMIN"))
+            return "redirect:/admin/users";
+        else
+            return "redirect:/lessons";
     }
 }
 

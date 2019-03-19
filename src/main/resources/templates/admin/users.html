@@ -21,7 +21,7 @@
         </tr>
         <tr th:each="user : ${users}">
             <td th:text="${user.id}"><a href="/lesson//${lesson.id}">Id</a></td>
-            <td th:text="${user.email}">Почта</td>
+            <td th:text="${user.login}">Почта</td>
             <td th:text="${user.role}">Роль</td>
         </tr>
     </table>

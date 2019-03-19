@@ -60,7 +60,7 @@ public class AdminController {
         try{
             Vector<User> users = csvReader.read(storageService.loadAsResource(file.getOriginalFilename()).getFile());
             for(User user:users){
-                User userExists = userService.findUserByEmail(user.getEmail());
+                User userExists = userService.findUserByLogin(user.getLogin());
                 if(userExists==null)
                     userService.saveUser(user);
             }
@@ -68,6 +68,8 @@ public class AdminController {
         catch (java.lang.Exception e){
             System.out.println(e.toString());
         }
+
+        storageService.deleteAll();
 
         ModelAndView modelAndView = getModelWithUser();
         //modelAndView.addObject("newUser", new User());

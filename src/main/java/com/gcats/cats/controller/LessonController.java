@@ -56,14 +56,22 @@ public class LessonController {
     }
 
     @RequestMapping(value = "/curator/lesson/new", method = RequestMethod.POST)
-    public ModelAndView createNewLesson(@Valid Lesson lesson, BindingResult bindingResult) {
+        public ModelAndView createNewLesson(@Valid Lesson lesson, BindingResult bindingResult) {
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.setViewName("lesson/new");
         if (!bindingResult.hasErrors()) {
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            lesson.setAuthor(auth.getName());
-            System.out.println(lesson.getName());
+//            Lesson lesson1 = lessonService.findLessonById(lesson.getId());
+//
+//            if(lesson1!=null){
+//                lessonService.editLesson(lesson);
+//            } else {
+//                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//                lesson.setAuthor(auth.getName());
+//                System.out.println(lesson.getName());
+//
+//            }
+
             lessonService.saveLesson(lesson);
             modelAndView.addObject("successMessage", "Lesson has been saved successfully");
             System.out.println(lesson.getId());
@@ -90,13 +98,12 @@ public class LessonController {
         return modelAndView;
     }
 
-
     @RequestMapping(value = "/lesson/comment/new/{id}", method = RequestMethod.POST)
     public String addComment(@PathVariable Integer id, @Valid Comment comment, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             comment.setLessonId(id);
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = userService.findUserByEmail(auth.getName());
+            User user = userService.findUserByLogin(auth.getName());
             comment.setUserId(user.getId());
             comment.setUserName(user.getName());
             commentService.saveComment(comment);

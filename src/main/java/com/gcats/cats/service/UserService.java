@@ -23,8 +23,8 @@ public class UserService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findUserByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 
     public User saveUser(User user) {
@@ -37,7 +37,7 @@ public class UserService {
 
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = findUserByEmail(auth.getName());
+        User user = findUserByLogin(auth.getName());
         modelAndView.addObject("user", user);
 
         return modelAndView;
