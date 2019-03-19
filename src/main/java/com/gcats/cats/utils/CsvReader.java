@@ -12,6 +12,7 @@ public class CsvReader
     private final int login = 0;
     private final int password = 1;
     private final int role = 2;
+    private final int name = 3;
 
     @SuppressWarnings("resource")
     public Vector<User> read(File file) throws Exception
@@ -26,6 +27,7 @@ public class CsvReader
                 user.setLogin(nextLine[login]);
                 user.setPassword(nextLine[password]);
                 user.setRole(nextLine[role]);
+                user.setName(nextLine[name]);
                 users.add(user);            }
         }
         return users;

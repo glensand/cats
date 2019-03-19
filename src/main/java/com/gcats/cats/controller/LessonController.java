@@ -66,12 +66,13 @@ public class LessonController {
 //            if(lesson1!=null){
 //                lessonService.editLesson(lesson);
 //            } else {
-//                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//                lesson.setAuthor(auth.getName());
 //                System.out.println(lesson.getName());
 //
 //            }
 
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            lesson.setAuthor(auth.getName());
             lessonService.saveLesson(lesson);
             modelAndView.addObject("successMessage", "Lesson has been saved successfully");
             System.out.println(lesson.getId());

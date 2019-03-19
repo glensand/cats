@@ -2,9 +2,64 @@
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta contentType="text/html;charset=UTF-8"/>
+
+    <style>
+
+
+        @font-face {
+            font-family: "HabraFont";
+            src: url(/static/fonts/tahoma.ttf);
+            -fs-pdf-font-embed: embed;
+            -fs-pdf-font-encoding: Identity-H;
+        }
+
+        @page {
+            margin: 0px;
+            padding: 0px;
+            size: A4 portrait;
+        }
+
+        @media print {
+            .new_page {
+                page-break-after: always;
+            }
+        }
+
+
+        #block {
+            width: 90%;
+            margin: auto;
+            background-color: white;
+            border: dashed #dbdbdb 1px;
+        }
+
+        #logo {
+            margin-top: 5px;
+            width: 100%;
+            text-align: center;
+            border-bottom: dashed #dbdbdb 1px;
+        }
+
+        #content {
+            padding-left: 10px;
+        }
+
+        * {
+            font-family: HabraFont;
+        }
+
+
+    </style>
 </head>
 <body>
+
+<div id="block">
+    <div id="content">
+        Русский текст
+        English text
+    </div>
+</div>
 
 <h2>Название Урока:</h2>
 <h3 th:text="${name}">Название</h3>

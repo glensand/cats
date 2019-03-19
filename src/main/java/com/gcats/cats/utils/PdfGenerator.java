@@ -1,6 +1,11 @@
 package com.gcats.cats.utils;
 
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
+import com.lowagie.text.DocumentException;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.PrettyXmlSerializer;
+import org.htmlcleaner.TagNode;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -14,11 +19,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.xhtmlrenderer.pdf.ITextFontResolver;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 //TODO: explore exception handling, move nameless strings to application.properties file
 @Component
 public class PdfGenerator {
+
+    private static final String CHARSET = "UTF-8";
 
     @Autowired
     private TemplateEngine templateEngine;
@@ -35,14 +43,27 @@ public class PdfGenerator {
         }
 
         String processedHtml = templateEngine.process("/lesson/" + templateName, ctx);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        HtmlCleaner cleaner = new HtmlCleaner();
+        CleanerProperties props = cleaner.getProperties();
+        props.setCharset(CHARSET);
+        TagNode node = cleaner.clean(processedHtml);
+        new PrettyXmlSerializer(props).writeToStream(node, out);
+
+        ITextRenderer renderer = new ITextRenderer();
+        ITextFontResolver fontResolver=renderer.getFontResolver();
+        fontResolver.addFont("D:\\java\\cats\\src\\main\\resources\\static\\fonts", true);
+
+        renderer.setDocumentFromString(new String(out.toByteArray(), CHARSET));
+
         OutputStream os = null;
+        System.out.println(processedHtml);
         try {
 
             Path dir = Files.createDirectories(Paths.get("src", "main", "webapp", "pdf"));
 
             os = Files.newOutputStream(dir.resolve(fileName + ".pdf"));
-            ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(processedHtml);
 
             renderer.layout();
             renderer.createPDF(os, false);
