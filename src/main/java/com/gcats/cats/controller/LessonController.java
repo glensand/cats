@@ -74,7 +74,7 @@ public class LessonController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             lesson.setAuthor(auth.getName());
             lessonService.saveLesson(lesson);
-            modelAndView.addObject("successMessage", "Lesson has been saved successfully");
+            modelAndView.addObject("successMessage", "План урока сохранен");
             System.out.println(lesson.getId());
             modelAndView.addObject("lesson", new Lesson());
         }
