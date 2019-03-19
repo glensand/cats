@@ -7,6 +7,8 @@ import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.PrettyXmlSerializer;
 import org.htmlcleaner.TagNode;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -53,7 +55,9 @@ public class PdfGenerator {
         new PrettyXmlSerializer(props).writeToStream(node, out);
 
         ITextRenderer renderer = new ITextRenderer();
-        renderer.getFontResolver().addFont("D:\\java\\cats\\src\\main\\" +
+//        Path fontPath = Files.(Paths.get("src", "main", "webapp", "pdf"));
+        String fullPath = new File(".").getCanonicalPath();
+        renderer.getFontResolver().addFont(fullPath + "\\src\\main\\" +
                         "resources\\static\\fonts\\tahoma.ttf",
                 BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
