@@ -2,6 +2,7 @@ package com.gcats.cats.utils;
 
 import java.io.ByteArrayOutputStream;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.BaseFont;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.PrettyXmlSerializer;
@@ -52,8 +53,9 @@ public class PdfGenerator {
         new PrettyXmlSerializer(props).writeToStream(node, out);
 
         ITextRenderer renderer = new ITextRenderer();
-        ITextFontResolver fontResolver=renderer.getFontResolver();
-        fontResolver.addFont("D:\\java\\cats\\src\\main\\resources\\static\\fonts", true);
+        renderer.getFontResolver().addFont("D:\\java\\cats\\src\\main\\" +
+                        "resources\\static\\fonts\\tahoma.ttf",
+                BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
         renderer.setDocumentFromString(new String(out.toByteArray(), CHARSET));
 

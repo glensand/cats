@@ -6,14 +6,6 @@
 
     <style>
 
-
-        @font-face {
-            font-family: "HabraFont";
-            src: url(/static/fonts/tahoma.ttf);
-            -fs-pdf-font-embed: embed;
-            -fs-pdf-font-encoding: Identity-H;
-        }
-
         @page {
             margin: 0px;
             padding: 0px;
@@ -45,21 +37,14 @@
             padding-left: 10px;
         }
 
-        * {
-            font-family: HabraFont;
+        body {
+            font-family:Tahoma;
         }
 
 
     </style>
 </head>
 <body>
-
-<div id="block">
-    <div id="content">
-        Русский текст
-        English text
-    </div>
-</div>
 
 <h2>Название Урока:</h2>
 <h3 th:text="${name}">Название</h3>
