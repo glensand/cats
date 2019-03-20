@@ -61,20 +61,23 @@ public class LessonController {
         modelAndView.setViewName("lesson/new");
         if (!bindingResult.hasErrors()) {
 
-//            Lesson lesson1 = lessonService.findLessonById(lesson.getId());
-//
-//            if(lesson1!=null){
-//                lessonService.editLesson(lesson);
-//            } else {
-//                System.out.println(lesson.getName());
-//
-//            }
+            Lesson lesson1 = lessonService.findLessonById(lesson.getId());
 
+            System.out.println(lesson.toString());
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            lesson.setAuthor(auth.getName());
-            lessonService.saveLesson(lesson);
-            modelAndView.addObject("successMessage", "Lesson has been saved successfully");
+            if(lesson1!=null){
+
+//                lesson.setId(lesson1.getId());
+                lessonService.update(lesson);
+                System.out.println("update");
+            } else {
+                System.out.println("create");
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                lesson.setAuthor(auth.getName());
+                lessonService.saveLesson(lesson);
+            }
+
+            modelAndView.addObject("successMessage", "План урока сохранен");
             System.out.println(lesson.getId());
             modelAndView.addObject("lesson", new Lesson());
         }

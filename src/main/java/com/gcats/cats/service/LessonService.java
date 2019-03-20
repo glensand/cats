@@ -2,11 +2,14 @@ package com.gcats.cats.service;
 
 import com.gcats.cats.model.Lesson;
 import com.gcats.cats.repository.LessonRepository;
+import com.gcats.cats.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 @Service("lessonService")
 public class LessonService  {
@@ -22,14 +25,15 @@ public class LessonService  {
         this.lessonRepository = lessonRepository;
     }
 
-//    public void editLesson(Lesson lesson) {
-//
-//        Session session = this.sessionFactory.getCurrentSession();
-//        Lesson lesson1 = (Lesson)session.load(Lesson.class, lesson.getId());
-//        lesson1.setGoal(lesson.getGoal());
-//        lesson1.setName(lesson.getName());
-//        lesson1.setText(lesson.getText());
-//    };
+    public void update(Lesson object) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(object);
+        session.getTransaction().commit();
+        if (session.isOpen()) {
+            session.close();
+        }
+    }
 
     public Lesson findLessonByName(String name) {
         return lessonRepository.findByName(name);
@@ -40,11 +44,20 @@ public class LessonService  {
     }
 
     public Lesson saveLesson(Lesson lesson) {
-        return lessonRepository.save(lesson);
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(lesson);
+        session.getTransaction().commit();
+        if (session.isOpen()) {
+            session.close();
+        }
+        return lesson;
     }
 
     public Iterable<Lesson> listAllLessons() {
         return lessonRepository.findAll();
     }
+
 
 }
