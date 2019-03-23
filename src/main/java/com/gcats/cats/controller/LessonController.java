@@ -67,19 +67,21 @@ public class LessonController {
 
             if(lesson1!=null){
 
-//                lesson.setId(lesson1.getId());
+                lesson.setAuthor(lessonService.findLessonById(lesson.getId()).getAuthor());
                 lessonService.update(lesson);
                 System.out.println("update");
             } else {
                 System.out.println("create");
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                lesson.setAuthor(auth.getName());
+                lesson.setAuthor(userService.findUserByLogin(auth.getName()));
                 lessonService.saveLesson(lesson);
             }
 
             modelAndView.addObject("successMessage", "План урока сохранен");
             System.out.println(lesson.getId());
             modelAndView.addObject("lesson", new Lesson());
+        } else {
+            System.out.println(bindingResult.getAllErrors());
         }
         return modelAndView;
     }
@@ -105,11 +107,10 @@ public class LessonController {
     @RequestMapping(value = "/lesson/comment/new/{id}", method = RequestMethod.POST)
     public String addComment(@PathVariable Integer id, @Valid Comment comment, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            comment.setLessonId(id);
+            comment.setLesson(lessonService.findLessonById(id));
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByLogin(auth.getName());
-            comment.setUserId(user.getId());
-            comment.setUserName(user.getName());
+            comment.setAuthor(user);
             commentService.saveComment(comment);
         }
         return "redirect:/lesson/" + id;
@@ -135,8 +136,7 @@ public class LessonController {
             Lesson lesson = lessonService.findLessonById(Integer.parseInt(fileName));
             data.put("name", lesson.getName());
             data.put("goal", lesson.getGoal());
-            data.put("text", lesson.getText());
-            data.put("author", lesson.getAuthor());
+            data.put("author", lesson.getAuthor().getName());
             pdfGeneratorUtil.createPdf("lessonToPdf", fileName, data);
         }
         catch (java.lang.Exception e){

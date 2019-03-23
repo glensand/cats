@@ -18,11 +18,13 @@ public class Comment {
     @Column(name = "comment_id")
     private int id;
 
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "lesson_id", nullable = false)
+    private Lesson lesson;
 
-    @Column(name = "user_name")
-    private String userName;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
     @Column(name = "text")
     private String text;

@@ -1,18 +1,22 @@
 package com.gcats.cats.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@DynamicInsert
+@DynamicUpdate
 @Entity
+@ToString(exclude = {"comments", "resources"})
 @Table(name = "lesson")
 public class Lesson {
 
@@ -24,16 +28,17 @@ public class Lesson {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "author")
-    private String author;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User author;
 
     @Column(name = "goal")
     private String goal;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Resource> resources;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lesson", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
     @Column(name = "time_interval")
