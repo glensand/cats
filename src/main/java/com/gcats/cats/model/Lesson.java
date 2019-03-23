@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Builder
@@ -22,16 +23,22 @@ public class Lesson {
 
     @Column(name = "name")
     private String name;
-//
-//    @Column(name = "description")
-//    private String description;
+
+    @Column(name = "author")
+    private String author;
 
     @Column(name = "goal")
     private String goal;
 
-    @Column(name = "text")
-    private String text;
+    @OneToMany
+    private Set<Resource> resources;
 
-    @Column(name = "author")
-    private String author;
+    @OneToMany
+    private Set<Comment> comments;
+
+    @Column(name = "time_interval")
+    private int timeInterval;
+
+    @Column(name = "background")
+    private String background;
 }

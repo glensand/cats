@@ -18,9 +18,6 @@ public class Comment {
     @Column(name = "comment_id")
     private int id;
 
-    @Column(name = "lesson_id")
-    private int lessonId;
-
     @Column(name = "user_id")
     private int userId;
 

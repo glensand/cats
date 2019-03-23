@@ -2,11 +2,7 @@ package com.gcats.cats.service;
 
 import com.gcats.cats.model.Lesson;
 import com.gcats.cats.repository.LessonRepository;
-import com.gcats.cats.utils.HibernateUtil;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +22,7 @@ public class LessonService  {
     }
 
     public void update(Lesson object) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.update(object);
-        session.getTransaction().commit();
-        if (session.isOpen()) {
-            session.close();
-        }
+        saveLesson(object);
     }
 
     public Lesson findLessonByName(String name) {
@@ -44,15 +34,7 @@ public class LessonService  {
     }
 
     public Lesson saveLesson(Lesson lesson) {
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.save(lesson);
-        session.getTransaction().commit();
-        if (session.isOpen()) {
-            session.close();
-        }
-        return lesson;
+        return lessonRepository.save(lesson);
     }
 
     public Iterable<Lesson> listAllLessons() {
