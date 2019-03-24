@@ -23,49 +23,106 @@
         <legend align="center">Урок</legend>
 
         <input id="id" name="textinput" th:field="*{id}" type="hidden" placeholder="" class="form-control input-md">
+        <table class="table table-striped">
+            <h4>Описание</h4>
+            <tr>
+                <th>Поле</th>
+                <th>Содержание</th>
+            </tr>
+            <tr>
+                <td><label class="col-md-3 control-label" th:align="right" for="name" >Название</label></td>
+                <td><input id="name" name="textinput" th:field="*{name}" type="text" placeholder="" class="form-control input-md"></td>
+            </tr>
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="name" >Название</label>
-            <div class="col-md-6">
-                <input id="name" name="textinput" th:field="*{name}" type="text" placeholder="" class="form-control input-md">
+            <tr>
+                <td><label class="col-md-3 control-label" for="name" th:align="right">Цель</label></td>
+                <td><input id="goal" name="textinput" th:field="*{goal}" type="text" placeholder="" class="form-control input-md"></td>
+            </tr>
 
-            </div>
-        </div>
+            <tr>
+                <td><label class="col-md-3 control-label" for="name" th:align="right">Требования у ученику</label></td>
+                <td><input id="background" name="textinput" th:field="*{background}" type="text" placeholder="" class="form-control input-md"></td>
+            </tr>
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-3 control-label" for="goal" >Цель</label>
-            <div class="col-md-6">
-                <input id="goal" name="textinput" th:field="*{goal}" type="text" placeholder="" class="form-control input-md">
+            <tr>
+                <td><label class="col-md-3 control-label" for="name" th:align="right">Временное ограничение</label></td>
+                <td><input id="timeInterval" name="textinput" th:field="*{timeInterval}" type="text" placeholder="" class="form-control input-md"></td>
+            </tr>
 
-            </div>
-        </div>
 
-        <!--&lt;!&ndash; Textarea &ndash;&gt;-->
-        <!--<div class="form-group">-->
-            <!--<label class="col-md-3 control-label" for="description">Описание</label>-->
-            <!--<div class="col-md-6">-->
-                <!--<textarea class="form-control" id="description" name="textarea" th:field="*{description}" ></textarea>-->
-            <!--</div>-->
-        <!--</div>-->
+        </table>
 
-        <!-- Textarea -->
-        <!--<div class="form-group">-->
-            <!--<label class="col-md-3 control-label" for="text">Текст</label>-->
-            <!--<div class="col-md-6">-->
-                <!--<textarea class="form-control" th:field="*{text}" id="text" name="textarea"></textarea>-->
-            <!--</div>-->
-        <!--</div>-->
+        <table class="table table-striped">
+            <h4>Материалы для преподавателя</h4>
+            <tr>
+                <th>Ссылка</th>
+                <th>Опиание</th>
+            </tr>
+            <tr th:each="r, iStat : *{resources}"
+                    th:style="${iStat.odd}? 'font-weight: bold;'"
+                    th:alt-title="${iStat.even}? 'even' : 'odd'">
 
-        <!--&lt;!&ndash; Text input&ndash;&gt;-->
-        <!--<div class="form-group">-->
-            <!--<label class="col-md-3 control-label" for="author">Автор</label>-->
-            <!--<div class="col-md-6">-->
-                <!--<input id="author" name="textinput" th:field="*{author}" type="text" placeholder="" class="form-control input-md">-->
+                <td>
+                    <input th:field="*{resources[__${iStat.index}__].link}"
+                            type="text" placeholder="" class="form-control input-md">
+                </td>
 
-            <!--</div>-->
-        <!--</div>-->
+                <td>
+                    <input th:field = "*{resources[__${iStat.index}__].description}"
+                           type="text" placeholder="" class="form-control input-md">
+                </td>
+
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+            <h4>Задания для преподавателя</h4>
+            <tr th:each="r, iStat : *{teacherTasks}"
+                th:style="${iStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <td>
+                    <input th:field="*{teacherTasks[__${iStat.index}__].task}"
+                           type="text" placeholder="" class="form-control input-md">
+                </td>
+            </tr>
+        </table>
+
+
+        <table class="table table-striped">
+            <h4>Заметки</h4>
+            <tr th:each="r, iStat : *{authorsNotes}"
+                th:style="${iStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <td>
+                    <input th:field="*{authorsNotes[__${iStat.index}__].note}"
+                           type="text" placeholder="" class="form-control input-md">
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+            <h4>Вопросы для Обсуждения</h4>
+            <tr th:each="r, iStat : *{reflectionPrompts}"
+                th:style="${iStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <td>
+                    <input th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}"
+                           type="text" placeholder="" class="form-control input-md">
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+            <h4>Способы оценивания</h4>
+            <tr th:each="r, iStat : *{estimates}"
+                th:style="${iStat.odd}? 'font-weight: bold;'"
+                th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <td>
+                    <input th:field="*{estimates[__${iStat.index}__].estimate}"
+                           type="text" placeholder="" class="form-control input-md">
+                </td>
+            </tr>
+        </table>
 
         <!-- Button -->
         <div class="form-group">

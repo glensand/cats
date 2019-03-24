@@ -2,11 +2,17 @@ package com.gcats.cats.controller;
 
 import com.gcats.cats.model.Comment;
 import com.gcats.cats.model.Lesson;
+import com.gcats.cats.model.LessonsAttributes.AuthorsNotes;
+import com.gcats.cats.model.LessonsAttributes.Estimates;
+import com.gcats.cats.model.LessonsAttributes.ReflectionPrompts;
+import com.gcats.cats.model.LessonsAttributes.TeacherTask;
+import com.gcats.cats.model.Resource;
 import com.gcats.cats.model.User;
 import com.gcats.cats.service.CommentService;
 import com.gcats.cats.service.LessonService;
 import com.gcats.cats.service.UserService;
 import com.gcats.cats.utils.PdfGenerator;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +30,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-//Slack
+import java.util.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 @Controller
 public class LessonController {
 
@@ -46,17 +55,53 @@ public class LessonController {
         return userService.getModelWithUser();
     }
 
+    private Lesson createNewLesson(){
+        Lesson lesson = new Lesson();
+
+        List<Resource> set = new LinkedList<>();
+        set.add(new Resource());
+        set.add(new Resource());
+        set.add(new Resource());
+        lesson.setResources(set);
+
+        List<TeacherTask> tasks = new LinkedList<>();
+        tasks.add(new TeacherTask());
+        tasks.add(new TeacherTask());
+        tasks.add(new TeacherTask());
+        lesson.setTeacherTasks(tasks);
+
+        List<AuthorsNotes> notes = new LinkedList<>();
+        notes.add(new AuthorsNotes());
+        notes.add(new AuthorsNotes());
+        lesson.setAuthorsNotes(notes);
+
+        List<ReflectionPrompts> prompts = new LinkedList<>();
+        prompts.add(new ReflectionPrompts());
+        prompts.add(new ReflectionPrompts());
+        lesson.setReflectionPrompts(prompts);
+
+        List<Estimates> estimates = new LinkedList<>();
+        estimates.add(new Estimates());
+        estimates.add(new Estimates());
+        lesson.setEstimates(estimates);
+
+        return lesson;
+    }
+
     @RequestMapping(value="/curator/lesson/new", method = RequestMethod.GET)
     public ModelAndView addLesson(){
         ModelAndView modelAndView = getModelWithUser();
-        Lesson lesson = new Lesson();
-        modelAndView.addObject("lesson", lesson);
+        modelAndView.addObject("lesson", createNewLesson());
         modelAndView.setViewName("lesson/new");
         return modelAndView;
     }
 
     @RequestMapping(value = "/curator/lesson/new", method = RequestMethod.POST)
-        public ModelAndView createNewLesson(@Valid Lesson lesson, BindingResult bindingResult) {
+        public ModelAndView createNewLesson(@Valid Lesson lesson, @Valid LinkedList<Resource> resources,
+                                            BindingResult bindingResult) {
+
+        System.out.println("--------------------------------size");
+        System.out.println(resources.size());
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.setViewName("lesson/new");
         if (!bindingResult.hasErrors()) {
@@ -79,10 +124,10 @@ public class LessonController {
 
             modelAndView.addObject("successMessage", "План урока сохранен");
             System.out.println(lesson.getId());
-            modelAndView.addObject("lesson", new Lesson());
         } else {
             System.out.println(bindingResult.getAllErrors());
         }
+        modelAndView.addObject("lesson", createNewLesson());
         return modelAndView;
     }
 
@@ -99,7 +144,6 @@ public class LessonController {
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.addObject("lesson", lessonService.findLessonById(id));
         modelAndView.addObject("comment", new Comment());
-        modelAndView.addObject("comments", commentService.listByLessonId(id));
         modelAndView.setViewName("lesson/show");
         return modelAndView;
     }
@@ -107,11 +151,12 @@ public class LessonController {
     @RequestMapping(value = "/lesson/comment/new/{id}", method = RequestMethod.POST)
     public String addComment(@PathVariable Integer id, @Valid Comment comment, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            comment.setLesson(lessonService.findLessonById(id));
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByLogin(auth.getName());
             comment.setAuthor(user);
-            commentService.saveComment(comment);
+            Lesson lesson = lessonService.findLessonById(id);
+            lesson.getComments().add(comment);
+            lessonService.saveLesson(lesson);
         }
         return "redirect:/lesson/" + id;
     }

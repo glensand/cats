@@ -23,7 +23,4 @@ public class Resource {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "lesson_id", nullable = false)
-    private Lesson lesson;
 }
