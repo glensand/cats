@@ -100,8 +100,6 @@ public class LessonController {
         public ModelAndView createNewLesson(@Valid Lesson lesson, @Valid LinkedList<Resource> resources,
                                             BindingResult bindingResult) {
 
-        System.out.println("--------------------------------size");
-        System.out.println(resources.size());
         ModelAndView modelAndView = getModelWithUser();
         modelAndView.setViewName("lesson/new");
         if (!bindingResult.hasErrors()) {

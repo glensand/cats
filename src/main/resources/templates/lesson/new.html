@@ -12,6 +12,22 @@
 </head>
 <body>
 
+<script>
+
+    function more(divId, spanId, listName, fieldName) {
+
+        var div = document.getElementById(divId);
+        var count = document.getElementById(spanId);
+        alert();
+        var newInput = '<input  type="text" placeholder="" class="form-control input-md" id="' +
+            listName + count.innerHTML + '.' + fieldName + '" name = "' + listName +
+            '[' + count.innerHTML + '].' + fieldName + '" value="">';
+        alert(newInput);
+        div.innerHTML = div.innerHTML + newInput;
+        count.innerHTML = parseInt(count.innerHTML) + 1;
+    }
+
+</script>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
@@ -25,10 +41,7 @@
         <input id="id" name="textinput" th:field="*{id}" type="hidden" placeholder="" class="form-control input-md">
         <table class="table table-striped">
             <h4>Описание</h4>
-            <tr>
-                <th>Поле</th>
-                <th>Содержание</th>
-            </tr>
+
             <tr>
                 <td><label class="col-md-3 control-label" th:align="right" for="name" >Название</label></td>
                 <td><input id="name" name="textinput" th:field="*{name}" type="text" placeholder="" class="form-control input-md"></td>
@@ -54,10 +67,6 @@
 
         <table class="table table-striped">
             <h4>Материалы для преподавателя</h4>
-            <tr>
-                <th>Ссылка</th>
-                <th>Опиание</th>
-            </tr>
             <tr th:each="r, iStat : *{resources}"
                     th:style="${iStat.odd}? 'font-weight: bold;'"
                     th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -100,18 +109,17 @@
             </tr>
         </table>
 
-        <table class="table table-striped">
+        <div class="col-md-12" id="questions">
             <h4>Вопросы для Обсуждения</h4>
-            <tr th:each="r, iStat : *{reflectionPrompts}"
-                th:style="${iStat.odd}? 'font-weight: bold;'"
-                th:alt-title="${iStat.even}? 'even' : 'odd'">
-                <td>
-                    <input th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}"
+            <div class="col-md-12" th:each="r, iStat : *{reflectionPrompts}"
+                 th:style="${iStat.odd}? 'font-weight: bold;'"
+                 th:alt-title="${iStat.even}? 'even' : 'odd'">
+            <input  th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}"
                            type="text" placeholder="" class="form-control input-md">
-                </td>
-            </tr>
-        </table>
-
+            </div>
+        </div>
+        <span id="questionCount" th:text="*{reflectionPrompts.size()}" hidden></span>
+        <input type="button" onclick="more('questions', 'questionCount', 'reflectionPrompts', 'RPrompt')" value="more">
         <table class="table table-striped">
             <h4>Способы оценивания</h4>
             <tr th:each="r, iStat : *{estimates}"
