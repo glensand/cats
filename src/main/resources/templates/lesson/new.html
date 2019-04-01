@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+    <link rel="stylesheet" th:href="@{/css/new.css}" href="../../css/new.css" />
+        <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 
 </head>
 <body>
@@ -18,11 +18,12 @@
 
         var div = document.getElementById(divId);
         var count = document.getElementById(spanId);
-        alert();
-        var newInput = '<input  type="text" placeholder="" class="form-control input-md" id="' +
-            listName + count.innerHTML + '.' + fieldName + '" name = "' + listName +
-            '[' + count.innerHTML + '].' + fieldName + '" value="">';
-        alert(newInput);
+        var newInput = '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
+                        '<div class="col-md-2"></div><div class="col-md-8">'
+                        + '<input  type="text" placeholder="" class="form-control input-md" id="' +
+                        listName + count.innerHTML + '.' + fieldName + '" name = "' + listName +
+                        '[' + count.innerHTML + '].' + fieldName + '" value="">' + '</div></div>';
+        //alert(newInput);
         div.innerHTML = div.innerHTML + newInput;
         count.innerHTML = parseInt(count.innerHTML) + 1;
     }
@@ -36,107 +37,165 @@
       role="form">
     <fieldset>
         <!-- Form Name -->
-        <legend align="center">Урок</legend>
+        <legend align="center">Создать урок</legend>
 
-        <input id="id" name="textinput" th:field="*{id}" type="hidden" placeholder="" class="form-control input-md">
-        <table class="table table-striped">
-            <h4>Описание</h4>
+        <input id="id" name="id" th:field="*{id}" type="hidden" placeholder="" class="form-control input-md">
 
-            <tr>
-                <td><label class="col-md-3 control-label" th:align="right" for="name" >Название</label></td>
-                <td><input id="name" name="textinput" th:field="*{name}" type="text" placeholder="" class="form-control input-md"></td>
-            </tr>
-
-            <tr>
-                <td><label class="col-md-3 control-label" for="name" th:align="right">Цель</label></td>
-                <td><input id="goal" name="textinput" th:field="*{goal}" type="text" placeholder="" class="form-control input-md"></td>
-            </tr>
-
-            <tr>
-                <td><label class="col-md-3 control-label" for="name" th:align="right">Требования у ученику</label></td>
-                <td><input id="background" name="textinput" th:field="*{background}" type="text" placeholder="" class="form-control input-md"></td>
-            </tr>
-
-            <tr>
-                <td><label class="col-md-3 control-label" for="name" th:align="right">Временное ограничение</label></td>
-                <td><input id="timeInterval" name="textinput" th:field="*{timeInterval}" type="text" placeholder="" class="form-control input-md"></td>
-            </tr>
-
-
-        </table>
-
-        <table class="table table-striped">
-            <h4>Материалы для преподавателя</h4>
-            <tr th:each="r, iStat : *{resources}"
-                    th:style="${iStat.odd}? 'font-weight: bold;'"
-                    th:alt-title="${iStat.even}? 'even' : 'odd'">
-
-                <td>
-                    <input th:field="*{resources[__${iStat.index}__].link}"
-                            type="text" placeholder="" class="form-control input-md">
-                </td>
-
-                <td>
-                    <input th:field = "*{resources[__${iStat.index}__].description}"
-                           type="text" placeholder="" class="form-control input-md">
-                </td>
-
-            </tr>
-        </table>
-
-        <table class="table table-striped">
-            <h4>Задания для преподавателя</h4>
-            <tr th:each="r, iStat : *{teacherTasks}"
-                th:style="${iStat.odd}? 'font-weight: bold;'"
-                th:alt-title="${iStat.even}? 'even' : 'odd'">
-                <td>
-                    <input th:field="*{teacherTasks[__${iStat.index}__].task}"
-                           type="text" placeholder="" class="form-control input-md">
-                </td>
-            </tr>
-        </table>
-
-
-        <table class="table table-striped">
-            <h4>Заметки</h4>
-            <tr th:each="r, iStat : *{authorsNotes}"
-                th:style="${iStat.odd}? 'font-weight: bold;'"
-                th:alt-title="${iStat.even}? 'even' : 'odd'">
-                <td>
-                    <input th:field="*{authorsNotes[__${iStat.index}__].note}"
-                           type="text" placeholder="" class="form-control input-md">
-                </td>
-            </tr>
-        </table>
-
-        <div class="col-md-12" id="questions">
-            <h4>Вопросы для Обсуждения</h4>
-            <div class="col-md-12" th:each="r, iStat : *{reflectionPrompts}"
-                 th:style="${iStat.odd}? 'font-weight: bold;'"
-                 th:alt-title="${iStat.even}? 'even' : 'odd'">
-            <input  th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}"
-                           type="text" placeholder="" class="form-control input-md">
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Название</label>
+            <div class="col-md-6">
+                <input id="name" name="name" th:field="*{name}" type="text" placeholder="" class="form-control input-md" required="">
+                <span class="help-block">Введите название урока</span>
             </div>
         </div>
-        <span id="questionCount" th:text="*{reflectionPrompts.size()}" hidden></span>
-        <input type="button" onclick="more('questions', 'questionCount', 'reflectionPrompts', 'RPrompt')" value="more">
-        <table class="table table-striped">
-            <h4>Способы оценивания</h4>
-            <tr th:each="r, iStat : *{estimates}"
-                th:style="${iStat.odd}? 'font-weight: bold;'"
-                th:alt-title="${iStat.even}? 'even' : 'odd'">
-                <td>
-                    <input th:field="*{estimates[__${iStat.index}__].estimate}"
-                           type="text" placeholder="" class="form-control input-md">
-                </td>
-            </tr>
-        </table>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Цель</label>
+            <div class="col-md-6">
+                <input id="goal" name="goal" th:field="*{goal}" type="text" placeholder="" class="form-control input-md" required="">
+                <span class="help-block">Введите цель урока</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Требования</label>
+            <div class="col-md-6">
+                <input id="background" name="background" th:field="*{background}" type="text" placeholder="" class="form-control input-md" required="">
+                <span class="help-block">Введите требования к ученику</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="name">Временное ограничение</label>
+            <div class="col-md-6">
+                <input id="timeInterval" name="timeInterval" th:field="*{timeInterval}" type="text" placeholder="" class="form-control input-md" required="">
+                <span class="help-block">Введите требования к ученику</span>
+            </div>
+        </div>
+
+        <div class="col-md-12" id="materials">
+            <h4 th:align="center">Материалы для преподавателя</h4>
+            <div th:each="r, iStat : *{resources}"
+                 th:style="${iStat.odd}? 'font-weight: bold;'"
+                 th:alt-title="${iStat.even}? 'even' : 'odd'">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input th:field="*{resources[__${iStat.index}__].link}" type="text" placeholder=""
+                               class="form-control input-md" >
+                        <span class="help-block">Ссылка на материал</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input th:field="*{resources[__${iStat.index}__].description}"
+                               type="text" placeholder="" class="form-control input-md" >
+                        <span class="help-block">Описание</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-12" id="teacherTasks">
+
+            <h4 th:align="center">Задания для преподавателя</h4>
+
+            <div class="form-group" th:each="r, iStat : *{teacherTasks}"
+                     th:style="${iStat.odd}? 'font-weight: bold;'"
+                     th:alt-title="${iStat.even}? 'even' : 'odd'">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <input th:field="*{teacherTasks[__${iStat.index}__].task}"
+                           type="text" placeholder="" class="form-control input-md" >
+                </div>
+            </div>
+        </div>
+
+        <span id = "taskCount" th:text="*{teacherTasks.size()}" hidden></span>
+        <div class="col-md-12" th:align="center">
+            <input type="button" class="button-new"
+                       onclick="more('teacherTasks', 'taskCount', 'teacherTasks', 'task')" value="Добавить">
+        </div>
+
+        <div class="col-md-12" id="notes">
+
+            <h4 th:align="center">Заметки</h4>
+            <div th:each="r, iStat : *{authorsNotes}"
+                 th:style="${iStat.odd}? 'font-weight: bold;'"
+                 th:alt-title="${iStat.even}? 'even' : 'odd'">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input th:field="*{authorsNotes[__${iStat.index}__].note}" type="text"
+                               placeholder="" class="form-control input-md" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span id = "notesCount" th:text="*{authorsNotes.size()}" hidden></span>
+        <div class="col-md-12" th:align="center">
+            <input type="button" class="button-new"
+                   onclick="more('notes', 'notesCount', 'authorsNotes', 'note')" value="Добавить">
+        </div>
+
+        <div class="col-md-12" id="questions">
+
+            <h4 th:align="center">Вопросы для обсуждения</h4>
+            <div th:each="r, iStat : *{authorsNotes}"
+                 th:style="${iStat.odd}? 'font-weight: bold;'"
+                 th:alt-title="${iStat.even}? 'even' : 'odd'">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}" type="text"
+                               placeholder="" class="form-control input-md" >
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span id = "questionsCount" th:text="*{authorsNotes.size()}" hidden></span>
+        <div class="col-md-12" th:align="center">
+            <input type="button" class="button-new"
+                   onclick="more('questions', 'questionsCount', 'reflectionPrompts', 'RPrompt')" value="Добавить">
+        </div>
+
+        <div class="col-md-12" id="estimates">
+            <h4 th:align="center">Способы оценивания</h4>
+            <div th:each="r, iStat : *{estimates}"
+                 th:style="${iStat.odd}? 'font-weight: bold;'"
+                 th:alt-title="${iStat.even}? 'even' : 'odd'">
+
+                <div class="form-group">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <input th:field="*{estimates[__${iStat.index}__].estimate}" type="text" placeholder=""
+                               class="form-control input-md" >
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span id = "estimatesCount" th:text="*{authorsNotes.size()}" hidden></span>
+        <div class="col-md-12" th:align="center">
+            <input type="button" class="button-new"
+                   onclick="more('estimates', 'estimatesCount', 'estimates', 'estimate')" value="Добавить">
+        </div>
 
         <!-- Button -->
         <div class="form-group">
             <label class="col-md-3 control-label" for="save"></label>
             <div class="col-md-6" align="center">
-                <button id="save" name="singlebutton" class="btn btn-inverse">Сохранить</button>
+                <button id="save" name="singlebutton" class="button-new">Сохранить</button>
             </div>
         </div>
 

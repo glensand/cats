@@ -60,28 +60,21 @@ public class LessonController {
 
         List<Resource> set = new LinkedList<>();
         set.add(new Resource());
-        set.add(new Resource());
-        set.add(new Resource());
         lesson.setResources(set);
 
         List<TeacherTask> tasks = new LinkedList<>();
-        tasks.add(new TeacherTask());
-        tasks.add(new TeacherTask());
         tasks.add(new TeacherTask());
         lesson.setTeacherTasks(tasks);
 
         List<AuthorsNotes> notes = new LinkedList<>();
         notes.add(new AuthorsNotes());
-        notes.add(new AuthorsNotes());
         lesson.setAuthorsNotes(notes);
 
         List<ReflectionPrompts> prompts = new LinkedList<>();
         prompts.add(new ReflectionPrompts());
-        prompts.add(new ReflectionPrompts());
         lesson.setReflectionPrompts(prompts);
 
         List<Estimates> estimates = new LinkedList<>();
-        estimates.add(new Estimates());
         estimates.add(new Estimates());
         lesson.setEstimates(estimates);
 
