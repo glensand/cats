@@ -152,6 +152,17 @@ public class LessonController {
         return "redirect:/lesson/" + id;
     }
 
+    @RequestMapping(value = "curator/lesson/remix/{id}", method = RequestMethod.GET)
+    public ModelAndView remix(@PathVariable Integer id){
+        ModelAndView modelAndView = getModelWithUser();
+        Lesson lesson = lessonService.findLessonById(id);
+        lesson.setId(0);
+        modelAndView.addObject("lesson", lesson);
+
+        modelAndView.setViewName("lesson/new");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "curator/lesson/edit/{id}", method = RequestMethod.GET)
     public ModelAndView edit(@PathVariable Integer id){
         ModelAndView modelAndView = getModelWithUser();

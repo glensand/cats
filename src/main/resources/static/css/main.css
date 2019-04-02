@@ -1,0 +1,40 @@
+.button-new{
+    background-color: rgba(186, 190, 245, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18pt;
+    border:none;
+    text-align: center;
+    min-width: 30px;
+    height: 30px;
+    margin: 10px;
+    padding: 0;
+    color: #363636;
+}
+
+.button-new:hover{
+    cursor: pointer;
+    background-color: #FFF;
+}
+
+#materials, #estimates, #questions, #notes, #teacherTasks, #descriptions{
+    background-color: rgba(186, 190, 245, 0.1);
+    border:1px solid rgba(245, 217, 204, 0.09);
+    border-radius: 5px;
+    margin:20px;
+}
+
+.button-save{
+
+    background-color: rgba(186, 190, 245, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18pt;
+    border:none;
+    text-align: center;
+    min-width: 200px;
+    height: 60px;
+    color: #363636;
+}
+.button-save:hover{
+    cursor: pointer;
+    background-color: #FFF;
+}
