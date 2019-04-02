@@ -1,6 +1,12 @@
 package com.gcats.cats.utils;
 
 import java.io.ByteArrayOutputStream;
+
+import com.gcats.cats.model.Lesson;
+import com.gcats.cats.model.LessonsAttributes.AuthorsNotes;
+import com.gcats.cats.model.LessonsAttributes.ReflectionPrompts;
+import com.gcats.cats.model.LessonsAttributes.TeacherTask;
+import com.gcats.cats.model.Resource;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.BaseFont;
 import org.htmlcleaner.CleanerProperties;
@@ -14,6 +20,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -34,16 +41,42 @@ public class PdfGenerator {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public void createPdf(String templateName, String fileName, Map map) throws Exception {
-        Assert.notNull(templateName, "The templateName can not be null");
+    private Context setContext(Lesson lesson){
         Context ctx = new Context();
-        if (map != null) {
-            Iterator itMap = map.entrySet().iterator();
-            while (itMap.hasNext()) {
-                Map.Entry pair = (Map.Entry) itMap.next();
-                ctx.setVariable(pair.getKey().toString(), pair.getValue());
-            }
-        }
+
+        ctx.setVariable("author", lesson.getAuthor());
+        ctx.setVariable("goal", lesson.getGoal());
+        ctx.setVariable("name", lesson.getName());
+        ctx.setVariable("timeInterval", lesson.getTimeInterval());
+        ctx.setVariable("background", lesson.getBackground());
+
+        Map<String, Object> resources = new HashMap<>();
+        for(Resource resource : lesson.getResources())
+            resources.put(resource.getLink(), resource.getDescription());
+        ctx.setVariables(resources);
+
+        Map<String, Object> notes = new HashMap<>();
+        for(AuthorsNotes note:lesson.getAuthorsNotes())
+            notes.put(note.getNote(), note);
+        ctx.setVariables(notes);
+
+        Map<String, Object> reflectionPrompts = new HashMap<>();
+        for(ReflectionPrompts prompt:lesson.getReflectionPrompts())
+            notes.put(prompt.getRPrompt(), prompt);
+        ctx.setVariables(reflectionPrompts);
+
+        Map<String, Object> tasks = new HashMap<>();
+        for(TeacherTask task:lesson.getTeacherTasks())
+            notes.put(task.getTask(), task);
+        ctx.setVariables(reflectionPrompts);
+
+        return ctx;
+    }
+
+    public void createPdf(String templateName, String fileName, Lesson lesson) throws Exception {
+        Assert.notNull(templateName, "The templateName can not be null");
+
+        Context ctx = setContext(lesson);
 
         String processedHtml = templateEngine.process("/lesson/" + templateName, ctx);
         ByteArrayOutputStream out = new ByteArrayOutputStream();

@@ -46,17 +46,45 @@
 </head>
 <body>
 
-<h2>Название Урока:</h2>
 <h3 th:text="${name}">Название</h3>
 <br/>
-<h2>Цель Урока:</h2>
-<h3 th:text="${goal}"></h3>
-<br/>
+<table>
 
-<br/>
-<h4>Автор:</h4>
+    <tr>
+        <td>Автор:</td>
+        <td th:text="${author.getName() + ' ' + author.getLastName()} "></td>
+    </tr>
 
-<p th:text="${author}"></p>
+    <tr>
+        <td>Цель Урока:</td>
+        <td th:text="goal"></td>
+    </tr>
+
+    <tr>
+        <td>Временное ограничение:</td>
+        <td th:text="timeInterval"></td>
+    </tr>
+
+    <tr>
+        <td>Требования к ученику:</td>
+        <td th:text="${background} "></td>
+    </tr>
+
+    <table>
+        <h3>Ресурсы</h3>
+        <th>Ссылка</th>
+        <th>Описание</th>
+
+
+        <tr th:each="r, i : ${resources}">
+            <td th:text="${r.key}"></td>
+            <td th:text="${r.value}"></td>
+        </tr>
+
+    </table>
+
+
+</table>
 
 </body>
 </html>

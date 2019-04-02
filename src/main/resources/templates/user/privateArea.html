@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+
+<head>
+    <meta charset="UTF-8">
+    <title>Private Area</title>
+
+<body>
+
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <form autocomplete="off" action="#" th:action="@{/user/edit}"
+          th:object="${user}" method="post" class="form-horizontal"
+          role="form">
+        <fieldset th:align="center">
+
+            <input id="id" name="id" th:field="*{id}" type="hidden" placeholder="" class="form-control input-md">
+
+            <div class="col-md-12" id="descriptions">
+                <legend align="center">Редактировать профиль</legend>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="name">Имя</label>
+                    <div class="col-md-6">
+                        <input id="name" name="name" th:field="*{name}" type="text" placeholder=""
+                               class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="name">Фамилия</label>
+                    <div class="col-md-6">
+                        <input id="goal" name="goal" th:field="*{lastName}" type="text" placeholder=""
+                               class="form-control input-md" required="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="name">Login</label>
+                    <div class="col-md-6">
+                        <input id="background" name="background" th:field="*{login}"
+                               type="text" placeholder="" class="form-control input-md" required="">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="col-md-12" th:align="center">
+                <button class="button-save" name="singlebutton" >Сохранить</button>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+</body>
+</body>
+</html>

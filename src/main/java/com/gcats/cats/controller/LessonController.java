@@ -190,12 +190,8 @@ public class LessonController {
                                      @PathVariable("fileName") String fileName) {
 
         try{
-            Map<String,String> data = new HashMap<String,String>();
             Lesson lesson = lessonService.findLessonById(Integer.parseInt(fileName));
-            data.put("name", lesson.getName());
-            data.put("goal", lesson.getGoal());
-            data.put("author", lesson.getAuthor().getName());
-            pdfGeneratorUtil.createPdf("lessonToPdf", fileName, data);
+            pdfGeneratorUtil.createPdf("lessonToPdf", fileName, lesson);
         }
         catch (java.lang.Exception e){
             System.out.println("handled");

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 @Controller
 public class IndexController {
 
@@ -31,6 +33,25 @@ public class IndexController {
             return "redirect:/admin/users";
         else
             return "redirect:/lessons";
+    }
+
+    @RequestMapping(value= {"/user/private"}, method = RequestMethod.GET)
+    public ModelAndView privateArea(){
+
+        ModelAndView modelAndView = getModelWithUser();
+        modelAndView.setViewName("user/privateArea");
+        return modelAndView;
+    }
+
+    @RequestMapping(value= {"/user/edit"}, method = RequestMethod.POST)
+    public String edit(User user){
+
+        User user1 = userService.findUserById(user.getId());
+        user1.setLogin(user.getLogin());
+        user1.setName(user.getName());
+        user1.setLastName(user.getLastName());
+        userService.saveUser(user1);
+        return "redirect:/user/private";
     }
 }
 

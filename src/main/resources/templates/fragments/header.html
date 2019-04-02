@@ -34,9 +34,12 @@
                             <a href="#" th:href="@{/admin/user/new}">Импорт пользователей</a>
                         </li>
 
-
                         <li th:if="${user.role.equals('ADMIN')}">
                             <a href="#" th:href="@{/admin/users}">Список пользователей</a>
+                        </li>
+
+                        <li>
+                            <a href="#" th:href="@{/user/private}" th:text="${user.login}"></a>
                         </li>
 
                         <li><a href="#" th:href="@{/logout}">Выйти</a></li>
