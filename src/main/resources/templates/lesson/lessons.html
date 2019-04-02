@@ -25,7 +25,7 @@
 
                 <td><a th:href="${ '/lesson/' + lesson.id}" th:text="${lesson.name}"></a></td>
 
-                <td th:text="${lesson.name}">Название</td>
+                <td th:text="${lesson.goal}"></td>
 
                 <td th:if="${(user.role.equals('TEACHER') or user.role.equals('CURATOR'))
                         and lesson.author.login.equals(user.login)}">

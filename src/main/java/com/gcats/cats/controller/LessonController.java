@@ -152,6 +152,17 @@ public class LessonController {
         return "redirect:/lesson/" + id;
     }
 
+    @RequestMapping(value = "/lesson/comment/delete/{id}/{lessonId}", method = RequestMethod.GET)
+    public String delComment(@PathVariable Integer id, @PathVariable Integer lessonId) {
+
+        Lesson lesson = lessonService.findLessonById(lessonId);
+        Comment comment = commentService.findCommentById(id);
+        lesson.getComments().remove(comment);
+        lessonService.saveLesson(lesson);
+        //commentService.deleteById(id);
+        return "redirect:/lesson/" + lessonId;
+    }
+
     @RequestMapping(value = "curator/lesson/remix/{id}", method = RequestMethod.GET)
     public ModelAndView remix(@PathVariable Integer id){
         ModelAndView modelAndView = getModelWithUser();

@@ -20,7 +20,7 @@
     background-color: rgba(186, 190, 245, 0.1);
     border:1px solid rgba(245, 217, 204, 0.09);
     border-radius: 5px;
-    margin:20px;
+    margin:20px 0 20px 0;
 }
 
 .button-save{
@@ -37,4 +37,23 @@
 .button-save:hover{
     cursor: pointer;
     background-color: #FFF;
+}
+
+#comments{
+    background-color: rgba(186, 190, 245, 0.1);
+    border:1px solid rgba(245, 217, 204, 0.09);
+    border-radius: 5px;
+    margin:20px 0 20px 0;
+}
+
+.comment{
+    padding:20px;
+    margin:20px 0 20px 0;
+    border:1px solid rgba(245, 217, 204, 0.09);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 5px;
+}
+
+#addComment{
+    margin:20px 0 20px 0;
 }
