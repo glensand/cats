@@ -37,6 +37,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
+    public User update(User user) {
+        return userRepository.save(user);
+    }
+
     public ModelAndView getModelWithUser(){
 
         ModelAndView modelAndView = new ModelAndView();
@@ -44,6 +49,7 @@ public class UserService {
         User user = findUserByLogin(auth.getName());
         modelAndView.addObject("user", user);
 
+        System.out.println(user.getPassword());
         return modelAndView;
     }
 

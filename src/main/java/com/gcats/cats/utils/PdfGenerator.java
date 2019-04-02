@@ -50,26 +50,27 @@ public class PdfGenerator {
         ctx.setVariable("timeInterval", lesson.getTimeInterval());
         ctx.setVariable("background", lesson.getBackground());
 
+        Map<String, Object> lessonInfo = new HashMap<>();
         Map<String, Object> resources = new HashMap<>();
         for(Resource resource : lesson.getResources())
             resources.put(resource.getLink(), resource.getDescription());
-        ctx.setVariables(resources);
 
         Map<String, Object> notes = new HashMap<>();
         for(AuthorsNotes note:lesson.getAuthorsNotes())
             notes.put(note.getNote(), note);
-        ctx.setVariables(notes);
 
         Map<String, Object> reflectionPrompts = new HashMap<>();
         for(ReflectionPrompts prompt:lesson.getReflectionPrompts())
             notes.put(prompt.getRPrompt(), prompt);
-        ctx.setVariables(reflectionPrompts);
 
         Map<String, Object> tasks = new HashMap<>();
         for(TeacherTask task:lesson.getTeacherTasks())
             notes.put(task.getTask(), task);
-        ctx.setVariables(reflectionPrompts);
 
+        lessonInfo.put("resources", resources);
+        lessonInfo.put("notes", notes);
+        //lessonInfo.put("reflection", resources);
+        ctx.setVariables(lessonInfo);
         return ctx;
     }
 

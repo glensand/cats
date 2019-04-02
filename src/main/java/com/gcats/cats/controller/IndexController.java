@@ -47,10 +47,10 @@ public class IndexController {
     public String edit(User user){
 
         User user1 = userService.findUserById(user.getId());
-        user1.setLogin(user.getLogin());
+//        user1.setLogin(user.getLogin());
         user1.setName(user.getName());
         user1.setLastName(user.getLastName());
-        userService.saveUser(user1);
+        userService.update(user1);
         return "redirect:/user/private";
     }
 }
