@@ -46,13 +46,13 @@
 </head>
 <body>
 
-<h3 th:text="${name}">Название</h3>
+<h3 th:text="${lesson.getName()}">Название</h3>
 <br/>
 <table>
 
     <tr>
         <td>Автор:</td>
-        <td th:text="${author.getName() + ' ' + author.getLastName()} "></td>
+        <td th:text="${lesson.getAuthor().getName() + ' ' + lesson.getAuthor().getLastName()} "></td>
     </tr>
 
     <tr>
@@ -67,24 +67,45 @@
 
     <tr>
         <td>Требования к ученику:</td>
-        <td th:text="${background} "></td>
+        <td th:text="${lesson.getBackground()} "></td>
     </tr>
-
+</table>
     <table>
         <h3>Ресурсы</h3>
         <th>Ссылка</th>
         <th>Описание</th>
 
-
-        <tr th:each="r, i : ${notes}">
-            <td th:text="${r.key}"></td>
-            <td th:text="${r.value}"></td>
+        <tr th:each="r, i : ${lesson.getResources()}">
+            <td th:text="${r.getLink()}"></td>
+            <td th:text="${r.getDescription()}"></td>
         </tr>
 
     </table>
 
+    <table>
+        <h3>Заметки</h3>
 
-</table>
+        <tr th:each="r, i : ${lesson.getAuthorsNotes()}">
+            <td th:text="${r.getNote()}"></td>
+        </tr>
+    </table>
+
+    <table>
+        <h3>Задания для преподавателя</h3>
+
+        <tr th:each="r, i : ${lesson.getTeacherTasks()}">
+            <td th:text="${(r.getTask())}"></td>
+        </tr>
+    </table>
+
+    <table>
+        <h3>Способы оценивания</h3>
+
+        <tr th:each="r, i : ${lesson.getEstimates()}">
+            <td th:text="${(r.getEstimate())}"></td>
+        </tr>
+    </table>
+
 
 </body>
 </html>

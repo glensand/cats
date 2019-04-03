@@ -43,7 +43,6 @@ public class PdfGenerator {
 
     private Context setContext(Lesson lesson){
         Context ctx = new Context();
-
         ctx.setVariable("author", lesson.getAuthor());
         ctx.setVariable("goal", lesson.getGoal());
         ctx.setVariable("name", lesson.getName());
@@ -77,8 +76,8 @@ public class PdfGenerator {
     public void createPdf(String templateName, String fileName, Lesson lesson) throws Exception {
         Assert.notNull(templateName, "The templateName can not be null");
 
-        Context ctx = setContext(lesson);
-
+        Context ctx = new Context();
+        ctx.setVariable("lesson", lesson);
         String processedHtml = templateEngine.process("/lesson/" + templateName, ctx);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
