@@ -15,6 +15,41 @@
 
 <script>
 
+    function generateInput(listName, fieldName, divId, count, spanId){
+        var val = '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
+            '<div class="col-md-2"></div><div class="col-md-8">'
+            + '<input  type="text" placeholder="" class="form-control input-md" id="' +
+            listName + count + '.' + fieldName + '" name = "' + listName +
+            '[' + count + '].' + fieldName + '" value="">' + '</div>'+
+            '<div class="col-md-2" align="left"><input type="button" class="button-less"'
+           +  'onclick="less(' + count + ', \'' + divId + '\',\'' + spanId +  '\',\'' +
+             listName + '\',\'' + fieldName + '\')" value="-"></div></div>';
+        return val;
+    }
+
+    function less(index, divId, spanId, listName, fieldName) {
+
+        var div = document.getElementById(divId);
+        var count = document.getElementById(spanId);
+
+        var values = [];
+        for(i=0;i<parseInt(count.innerHTML);i++){
+            if(i!=index){
+                var inputId = listName + i + "." + fieldName;
+                var input = document.getElementById(inputId).value;
+                values.push(input);
+            }
+        }
+        div.innerHTML = "";
+        for(i=0;i<parseInt(count.innerHTML) - 1;i++)
+            div.innerHTML += generateInput(listName, fieldName, divId, i, spanId);
+
+        for(i=0;i<parseInt(count.innerHTML) - 1;i++)
+            document.getElementById(listName + i + "." + fieldName).value = values[i];
+
+        count.innerHTML = parseInt(count.innerHTML) - 1;
+    }
+
     function more(divId, spanId, listName, fieldName) {
 
         var div = document.getElementById(divId);
@@ -59,6 +94,7 @@
             listName + count.innerHTML + '.' + fieldName1 + '" name = "' + listName +
             '[' + count.innerHTML + '].' + fieldName1 + '" value="">' +
             '<span class="help-block">Ссылка на материал</span></div></div>' +
+
             '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
             '<div class="col-md-2"></div><div class="col-md-8">'
             + '<input  type="text" placeholder="" class="form-control input-md" id="' +
@@ -228,10 +264,9 @@
 
         </div>
 
-
         <div class="col-md-12" id="estimates">
-            <div class="col-md-12" id="estimatesInner">
             <h4 th:align="center">Способы оценивания</h4>
+            <div class="col-md-12" id="estimatesInner">
             <div th:each="r, iStat : *{estimates}"
                  th:style="${iStat.odd}? 'font-weight: bold;'"
                  th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -242,11 +277,15 @@
                         <input th:field="*{estimates[__${iStat.index}__].estimate}" type="text" placeholder=""
                                class="form-control input-md" >
                     </div>
+                    <div class="col-md-2" align="left">
+                        <input type="button" class="button-less"
+                              th:onclick="|less(${iStat.index}, 'estimatesInner', 'estimatesCount', 'estimates', 'estimate')|" value="-">
+                    </div>
                 </div>
             </div>
             </div>
 
-            <span id = "estimatesCount" th:text="*{authorsNotes.size()}" hidden></span>
+            <span id = "estimatesCount" th:text="*{estimates.size()}" hidden></span>
             <div class="col-md-12" th:align="center">
                 <input type="button" class="button-new"
                        onclick="more('estimatesInner', 'estimatesCount', 'estimates', 'estimate')" value="+">

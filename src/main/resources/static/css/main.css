@@ -11,7 +11,24 @@
     color: #363636;
 }
 
-.button-new:hover{
+.button-new:hover, .button-less:hover{
+    cursor: pointer;
+    background-color: #FFF;
+}
+
+.button-less{
+    background-color: rgba(186, 190, 245, 0.1);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18pt;
+    border:none;
+    text-align: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0;
+    color: #363636;
+}
+
+.button-less:hover{
     cursor: pointer;
     background-color: #FFF;
 }
@@ -23,7 +40,7 @@
     margin:20px 0 20px 0;
 }
 
-.button-save{
+.button-save {
 
     background-color: rgba(186, 190, 245, 0.1);
     font-family: 'Montserrat', sans-serif;
