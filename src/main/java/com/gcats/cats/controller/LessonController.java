@@ -90,11 +90,8 @@ public class LessonController {
     }
 
     @RequestMapping(value = "/curator/lesson/new", method = RequestMethod.POST)
-        public ModelAndView createNewLesson(@Valid Lesson lesson, @Valid LinkedList<Resource> resources,
+        public String createNewLesson(@Valid Lesson lesson, @Valid LinkedList<Resource> resources,
                                             BindingResult bindingResult) {
-
-        ModelAndView modelAndView = getModelWithUser();
-        modelAndView.setViewName("lesson/new");
         if (!bindingResult.hasErrors()) {
 
             Lesson lesson1 = lessonService.findLessonById(lesson.getId());
@@ -113,13 +110,11 @@ public class LessonController {
                 lessonService.saveLesson(lesson);
             }
 
-            modelAndView.addObject("successMessage", "План урока сохранен");
             System.out.println(lesson.getId());
         } else {
             System.out.println(bindingResult.getAllErrors());
         }
-        modelAndView.addObject("lesson", createNewLesson());
-        return modelAndView;
+        return "redirect:/lessons/";
     }
 
     @RequestMapping(value = "/lessons", method = RequestMethod.GET)

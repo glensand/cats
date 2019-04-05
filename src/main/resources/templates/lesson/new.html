@@ -61,16 +61,11 @@
             values.push(input);
         }
 
-        var newInput = '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
-                        '<div class="col-md-2"></div><div class="col-md-8">'
-                        + '<input  type="text" placeholder="" class="form-control input-md" id="' +
-                        listName + count.innerHTML + '.' + fieldName + '" name = "' + listName +
-                        '[' + count.innerHTML + '].' + fieldName + '" value="">' + '</div></div>';
-        //alert(newInput);
+        var newInput = generateInput(listName, fieldName, divId, parseInt(count.innerHTML), spanId);
         div.innerHTML = div.innerHTML + newInput;
-        for(i=0;i<parseInt(count.innerHTML);i++){
+        for(i=0;i<parseInt(count.innerHTML);i++)
             var input = document.getElementById(listName + i + "." + fieldName).value = values[i];
-        }
+
         count.innerHTML = parseInt(count.innerHTML) + 1;
     }
 
@@ -88,19 +83,8 @@
             values2.push(input2);
         }
 
-        var newInput = '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
-            '<div class="col-md-2"></div><div class="col-md-8">'
-            + '<input  type="text" placeholder="" class="form-control input-md" id="' +
-            listName + count.innerHTML + '.' + fieldName1 + '" name = "' + listName +
-            '[' + count.innerHTML + '].' + fieldName1 + '" value="">' +
-            '<span class="help-block">Ссылка на материал</span></div></div>' +
-
-            '<div class="form-group" style="font-weight: bold;" alt="odd" title="odd">' +
-            '<div class="col-md-2"></div><div class="col-md-8">'
-            + '<input  type="text" placeholder="" class="form-control input-md" id="' +
-            listName + count.innerHTML + '.' + fieldName2 + '" name = "' + listName +
-            '[' + count.innerHTML + '].' + fieldName2 + '" value="">' +
-            '<span class="help-block">Описание</span></div></div>';
+        var newInput = generateInput(listName, fieldName1, divId, parseInt(count.innerHTML), spanId) +
+            generateInput(listName, fieldName2, divId, parseInt(count.innerHTML), spanId);
 
         div.innerHTML+= newInput;
         for(i=0;i<parseInt(count.innerHTML);i++){
@@ -157,8 +141,8 @@
         </div>
 
         <div class="col-md-12" id="materials">
+            <h4 th:align="center">Материалы для преподавателя</h4>
             <div class="col-md-12" id="materialsInner">
-                <h4 th:align="center">Материалы для преподавателя</h4>
                 <div th:each="r, iStat : *{resources}"
                      th:style="${iStat.odd}? 'font-weight: bold;'"
                      th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -192,8 +176,8 @@
         </div>
 
         <div class="col-md-12" id="teacherTasks">
+            <h4 th:align="center">Задания для преподавателя</h4>
             <div class="col-md-12" id="teacherTasksInner">
-                <h4 th:align="center">Задания для преподавателя</h4>
 
                 <div class="form-group" th:each="r, iStat : *{teacherTasks}"
                      th:style="${iStat.odd}? 'font-weight: bold;'"
@@ -203,6 +187,12 @@
                         <input th:field="*{teacherTasks[__${iStat.index}__].task}"
                                type="text" class="form-control input-md">
                     </div>
+
+                    <div class="col-md-2" align="left">
+                        <input type="button" class="button-less"
+                               th:onclick="|less(${iStat.index}, 'teacherTasksInner', 'taskCount', 'teacherTasks', 'task')|" value="-">
+                    </div>
+
                 </div>
             </div>
             <span id = "taskCount" th:text="*{teacherTasks.size()}" hidden></span>
@@ -214,8 +204,8 @@
 
 
         <div class="col-md-12" id="notes">
+            <h4 th:align="center">Заметки</h4>
             <div class="col-md-12" id="notesInner">
-                <h4 th:align="center">Заметки</h4>
                 <div th:each="r, iStat : *{authorsNotes}"
                      th:style="${iStat.odd}? 'font-weight: bold;'"
                      th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -227,6 +217,12 @@
                                    placeholder="" class="form-control input-md" >
 
                         </div>
+
+                        <div class="col-md-2" align="left">
+                            <input type="button" class="button-less"
+                                   th:onclick="|less(${iStat.index}, 'notesInner', 'notesCount', 'authorsNotes', 'note')|" value="-">
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -239,8 +235,8 @@
         </div>
 
         <div class="col-md-12" id="questions">
+            <h4 th:align="center">Вопросы для обсуждения</h4>
             <div id="questionsInner" class="col-md-12">
-                <h4 th:align="center">Вопросы для обсуждения</h4>
                 <div th:each="r, iStat : *{authorsNotes}"
                      th:style="${iStat.odd}? 'font-weight: bold;'"
                      th:alt-title="${iStat.even}? 'even' : 'odd'">
@@ -251,6 +247,12 @@
                             <input th:field="*{reflectionPrompts[__${iStat.index}__].RPrompt}" type="text"
                                    placeholder="" class="form-control input-md" >
 
+                        </div>
+
+                        <div class="col-md-2" align="left">
+                            <input type="button" class="button-less"
+                                   th:onclick="|less(${iStat.index}, 'questionsInner', 'questionsCount',
+                                   'reflectionPrompts', 'RPrompt')|" value="-">
                         </div>
                     </div>
                 </div>
